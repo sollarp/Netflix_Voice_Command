@@ -1,33 +1,28 @@
 import urllib.request
 import urllib.parse
 from Support import vlc
-from Google_SpeechToText import main
-import re
+from Support.Google_SpeechToText import main
 from selenium.webdriver.common.keys import Keys
 import time
 from selenium import webdriver
 import pyautogui
 from selenium.webdriver.chrome.options import Options
 from pynput.keyboard import Key, Controller
-from Support import Tkinter, text_to_speech_helper, unoffical_netfix_database, text_to_speech_goog_ai
-import sys
 import os
 from Support.sqlite_test import data_entry
 from Support.helper_for_sqlite import readSingleRow
 from Support.unoffical_netfix_database import netflix_api
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
+from Utils.all_functions import FunctionSupport
 
 
 class GoogleSearch:
-    from Utils.all_functions import terminate_all_process, play_mp3, calling_vlc, text_onscreen, website_request, \
-        text_send_to_server, text_lenght_result, searching_in_searchBar, find_elements_on_website, \
-        create_driver_session, user_stored_for_local_database,
+
 
     driver = None
     search_bar_input = None
     player = None
     chrome_options = None
-    website_request = None
     label = None
     keyboard = Controller()
 
@@ -49,14 +44,14 @@ class GoogleSearch:
         pyautogui.press('f11')
 
     def secondary_voice(self, s_driver_bool):  ### Starting point
+        functionsupport = FunctionSupport()
         self.init_chrome_options()
         x = s_driver_bool
 
         while True:
-            # text_q = input('text here:').lower()
             text_q = main().lower()
             if text_q:
-                self.text_onscreen(text_q)
+                functionsupport.text_onscreen(text_q)
 
             if 'netflix' in text_q:
                 try:
@@ -64,24 +59,23 @@ class GoogleSearch:
                 except:
                     pass
                 finally:
-                    url_link = 'https://www.netflix.com/SwitchProfile?tkn=J3LTSQQC2NDQHLYPD6UGZN76TI'
+                    url_link = 'https://www.netflix.com/SwitchProfile?tkn=J3LTSQQC2NDQHLYPD6UGZ76T'
                     if x:
                         self.driver.get(url_link)
-                        self.find_elements_on_website(f_loop=5)
+                        functionsupport.find_elements_on_website(f_loop=5)
                         return True
                     else:
                         self.init_driver()
                         self.driver.get(url_link)
-                        s_driver = self.create_driver_session(session_id=self.driver.session_id,
+                        s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
                                                               executor_url=self.driver.command_executor._url)
-                        self.find_elements_on_website(f_loop=5)
+                        functionsupport.find_elements_on_website(f_loop=5)
                         return True
 
 
             elif 'add this to my playlist' in text_q:
-                print(self.movie_title)
-                movie_name = self.movie_title
-                url_link = self.url_get
+                movie_name = functionsupport.movie_title
+                url_link = functionsupport.url_get
                 data_entry(movie_name, url_link)
                 return True
 
@@ -92,7 +86,7 @@ class GoogleSearch:
                     pass
                 finally:
                     last_word = 'watch'
-                    result_search = self.text_lenght_result(last_word, text_q)  # getting string after 'watch' word
+                    result_search = functionsupport.text_lenght_result(last_word, text_q)  # getting string after 'watch' word
                     print("local database: " + result_search)
                     result_search = result_search.strip()  ### delete space after 'watch' word
                     local_database = readSingleRow(result_search)  # searching in sqlite database (local database)
@@ -107,7 +101,7 @@ class GoogleSearch:
                             if x:
                                 self.driver.get(url_link)
                                 time.sleep(1)
-                                self.searching_in_searchBar(text_q,
+                                functionsupport.searching_in_searchBar(text_q,
                                                             last_word)  # searching in netflix website search bar
                                 print("netflix searchbar")
                                 return True
@@ -115,25 +109,25 @@ class GoogleSearch:
                                 self.init_driver()
                                 self.driver.get(url_link)
                                 ## store session in memory to reuse webdriver
-                                s_driver = self.create_driver_session(session_id=self.driver.session_id,
+                                s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
                                                                       executor_url=self.driver.command_executor._url)
                                 time.sleep(1)
-                                self.searching_in_searchBar(text_q, last_word)
+                                functionsupport.searching_in_searchBar(text_q, last_word)
                                 print("netflix searchbar")
                                 return True
 
                         else:
                             if x:
                                 self.driver.get('https://www.netflix.com/watch/' + return_sql_url)
-                                self.user_stored_for_local_database()  ## find show name and url to add to playlist
+                                functionsupport.user_stored_for_local_database()  ## find show name and url to add to playlist
                                 return True
                             else:
                                 self.init_driver()
                                 self.driver.get('https://www.netflix.com/watch/' + return_sql_url)
                                 ## store session in memory to reuse webdriver
-                                s_driver = self.create_driver_session(session_id=self.driver.session_id,
+                                s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
                                                                       executor_url=self.driver.command_executor._url)
-                                self.user_stored_for_local_database()  ## find show name and url to add to playlist
+                                functionsupport.user_stored_for_local_database()  ## find show name and url to add to playlist
                                 print("API database")
                                 return True
 
@@ -144,7 +138,7 @@ class GoogleSearch:
                         else:
                             self.init_driver()
                             self.driver.get(local_database)
-                            s_driver = self.create_driver_session(session_id=self.driver.session_id,
+                            s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
                                                                   executor_url=self.driver.command_executor._url)
                             return True
             ## Search on  netflix search bar  with webbrowser
@@ -153,22 +147,22 @@ class GoogleSearch:
                 if x:
                     self.driver.get(url_link)
                     time.sleep(1)
-                    self.searching_in_searchBar(text_q, last_word='for')
+                    functionsupport.searching_in_searchBar(text_q, last_word='for')
                     print("netflix searchbar")
                     return True
                 else:
                     self.init_driver()
                     self.driver.get(url_link)
-                    s_driver = self.create_driver_session(session_id=self.driver.session_id,
+                    s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
                                                           executor_url=self.driver.command_executor._url)
                     time.sleep(1)
-                    self.searching_in_searchBar(text_q, last_word='for')
+                    functionsupport.searching_in_searchBar(text_q, last_word='for')
                     print("netflix searchbar")
                     return True
 
             elif 'go to sleep' in text_q:
                 try:
-                    self.terminate_all_process()
+                    functionsupport.terminate_all_process()
                     os.system('echo "standby 0" | cec-client -s -d 1')
                 except:
                     os.system('echo "standby 0" | cec-client -s -d 1')
@@ -177,7 +171,7 @@ class GoogleSearch:
 
             elif 'shut down' in text_q:
                 try:
-                    self.terminate_all_process()
+                    functionsupport.terminate_all_process()
                 except:
                     pass
                 break
@@ -223,7 +217,7 @@ class GoogleSearch:
             ## Close every VLC or Webdriver activity
             elif 'shut down' in text_q:
                 try:
-                    self.terminate_all_process()
+                    functionsupport.terminate_all_process()
                 except:
                     pass
                 break
@@ -256,7 +250,7 @@ class GoogleSearch:
                 star_playing.click()
                 # jaw-play-hitzone
                 os.system('sudo amixer cset numid=1 100%')
-                self.user_stored_for_local_database()
+                functionsupport.user_stored_for_local_database()
                 return True
 
             elif 'play ii' in text_q:
@@ -271,7 +265,7 @@ class GoogleSearch:
                 star_playing = self.driver.find_element_by_class_name('previewModal--player-titleTreatmentWrapper')
                 star_playing.click()
                 os.system('sudo amixer cset numid=1 100%')
-                self.user_stored_for_local_database()
+                functionsupport.user_stored_for_local_database()
                 return True
 
             elif 'play third' in text_q:
@@ -285,7 +279,7 @@ class GoogleSearch:
                 time.sleep(1)
                 star_playing = self.driver.find_element_by_class_name('previewModal--player-titleTreatmentWrapper')
                 star_playing.click()
-                self.user_stored_for_local_database()
+                functionsupport.user_stored_for_local_database()
                 return True
 
             elif 'play 4' in text_q:
@@ -299,16 +293,16 @@ class GoogleSearch:
                 time.sleep(1)
                 star_playing = self.driver.find_element_by_class_name('previewModal--player-titleTreatmentWrapper')
                 star_playing.click()
-                self.user_stored_for_local_database()
+                functionsupport.user_stored_for_local_database()
                 return True
 
             elif 'grinch' in text_q:
                 try:
-                    self.terminate_all_process()
+                    functionsupport.terminate_all_process()
                     time.sleep(1)
-                    self.calling_vlc()
+                    functionsupport.calling_vlc()
                 except:
-                    self.calling_vlc('/home/pi/Videos/Grinch.mkv')
+                    functionsupport.calling_vlc('/home/pi/Videos/Grinch.mkv')
                     self.player.set_fullscreen(True)
                     self.player.play()
                     time.sleep(2)
@@ -318,7 +312,7 @@ class GoogleSearch:
             elif 'youtube' in text_q:
 
                 try:
-                    self.terminate_all_process()
+                    functionsupport.terminate_all_process()
 
                 except Exception:
                     pass
@@ -326,7 +320,7 @@ class GoogleSearch:
                 finally:
 
                     query2 = main()
-                    wr = self.website_request(query2)
+                    wr = functionsupport.website_request(query2)
                     print(wr)
                     url = ("http://www.youtube.com/watch?v=" + wr[0])
                     video = pafy.new(url)

@@ -23,7 +23,6 @@ def readSingleRow(developerId):
         if (sqliteConnection):
             sqliteConnection.close()
             print("The SQLite connection is closed")
-    #print(return_sqlUrl)        
     return return_sqlUrl
         
 
