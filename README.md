@@ -1,5 +1,5 @@
-# Netflix_Voice_Command
-This version rans on Raspbery Pi4B 4g using low quality USB MIC with HDMI out to Toshiba TV.
+# Netflix_Voice_Command Raspberry Pi4
+This version rans on Raspberry Pi4B 4g using low quality USB MIC with HDMI out to Toshiba TV.
 
 Netflix Voice Control(like Alexa or Google Assistant) using Picovoice and Google Cloud Speech_to_text API together for privacy reason with no cost 
 apart from Netflix subscribe. 
