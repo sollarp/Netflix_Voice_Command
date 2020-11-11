@@ -14,7 +14,7 @@ API used:
  ###Sound##
  
  There is a configuration problem with sharing MIC on PI while running Picovoice and Google Cloud. This require Alsamixer configuration on PI4.
- There is a possible bug in AlsaMixer so Google Speech to text through a "Invalide Sample rate issue" which noting to do with it just need to 
+ There is a possible bug in AlsaMixer so Google Speech to text through a "Invalid Sample rate issue" which noting to do with it just need to 
  run the following in Terminal "" arecord -f cd -c 1 -D dsnoop f333rt.wav" to test the MIC availability and run MAIN.py again.
  
  ###Chromium(Chrome)##
