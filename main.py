@@ -40,16 +40,14 @@ class wake_up:
             # result = True
             if result:
                 # wake-word detected
-                # awake = True
                 print('you sad bumblebee')
                 pygame.mixer.init()
+                ## Respond with sound
                 pygame.mixer.music.load("bee_sound.wav")
                 pygame.mixer.music.play()
+                ## Turns TV volume 83%
                 os.system('sudo amixer cset numid=1 83%')
                 change = google_search.secondary_voice(s_driver_bool)
-                print(s_driver_bool)
-                print("boolean_back: ")
-                print(change)
                 if change == True:
                     s_driver_bool = True
                 else:

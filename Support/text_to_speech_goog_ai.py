@@ -39,16 +39,3 @@ def speech_result_return(create_text):
         print('Audio content written to file "text.mp3"')
         play_mp3_content()
         
-        
-
-    #file = response.audio_content
-    #print(response.audio_content)
-    #mp3_return()
-        #pygame.init()
-        #pygame.mixer.init()
-        #pygame.mixer.music.load('text.mp3')
-        #pygame.mixer.music.play()
-        #pygame.event.wait()
-    
-
-#speech_result_return(create_text=imported_text)

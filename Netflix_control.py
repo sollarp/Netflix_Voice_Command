@@ -12,13 +12,10 @@ import os
 from Support.sqlite_test import data_entry
 from Support.helper_for_sqlite import readSingleRow
 from Support.unoffical_netfix_database import netflix_api
-from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 from Utils.all_functions import FunctionSupport
 
 
 class GoogleSearch:
-
-
     driver = None
     search_bar_input = None
     player = None
@@ -31,7 +28,7 @@ class GoogleSearch:
         self.chrome_options = Options()
         self.chrome_options.add_argument(
             "--user-agent=Mozilla/5.0 (X11; CrOS armv7l 11895.95.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.125 Safari/537.36"
-            )
+        )
         self.chrome_options.add_argument("start-maximized")
         self.chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
         self.chrome_options.add_experimental_option('useAutomationExtension', False)
@@ -68,7 +65,7 @@ class GoogleSearch:
                         self.init_driver()
                         self.driver.get(url_link)
                         s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                              executor_url=self.driver.command_executor._url)
+                                                                         executor_url=self.driver.command_executor._url)
                         functionsupport.find_elements_on_website(f_loop=5)
                         return True
 
@@ -86,7 +83,8 @@ class GoogleSearch:
                     pass
                 finally:
                     last_word = 'watch'
-                    result_search = functionsupport.text_lenght_result(last_word, text_q)  # getting string after 'watch' word
+                    result_search = functionsupport.text_lenght_result(last_word,
+                                                                       text_q)  # getting string after 'watch' word
                     print("local database: " + result_search)
                     result_search = result_search.strip()  ### delete space after 'watch' word
                     local_database = readSingleRow(result_search)  # searching in sqlite database (local database)
@@ -102,7 +100,7 @@ class GoogleSearch:
                                 self.driver.get(url_link)
                                 time.sleep(1)
                                 functionsupport.searching_in_searchBar(text_q,
-                                                            last_word)  # searching in netflix website search bar
+                                                                       last_word)  # searching in netflix website search bar
                                 print("netflix searchbar")
                                 return True
                             else:
@@ -110,7 +108,7 @@ class GoogleSearch:
                                 self.driver.get(url_link)
                                 ## store session in memory to reuse webdriver
                                 s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                                      executor_url=self.driver.command_executor._url)
+                                                                                 executor_url=self.driver.command_executor._url)
                                 time.sleep(1)
                                 functionsupport.searching_in_searchBar(text_q, last_word)
                                 print("netflix searchbar")
@@ -126,7 +124,7 @@ class GoogleSearch:
                                 self.driver.get('https://www.netflix.com/watch/' + return_sql_url)
                                 ## store session in memory to reuse webdriver
                                 s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                                      executor_url=self.driver.command_executor._url)
+                                                                                 executor_url=self.driver.command_executor._url)
                                 functionsupport.user_stored_for_local_database()  ## find show name and url to add to playlist
                                 print("API database")
                                 return True
@@ -139,7 +137,7 @@ class GoogleSearch:
                             self.init_driver()
                             self.driver.get(local_database)
                             s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                                  executor_url=self.driver.command_executor._url)
+                                                                             executor_url=self.driver.command_executor._url)
                             return True
             ## Search on  netflix search bar  with webbrowser
             elif 'search for' in text_q:
@@ -154,7 +152,7 @@ class GoogleSearch:
                     self.init_driver()
                     self.driver.get(url_link)
                     s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                          executor_url=self.driver.command_executor._url)
+                                                                     executor_url=self.driver.command_executor._url)
                     time.sleep(1)
                     functionsupport.searching_in_searchBar(text_q, last_word='for')
                     print("netflix searchbar")
@@ -192,7 +190,7 @@ class GoogleSearch:
             elif 'tv off' in text_q:
                 os.system('echo "standby 0" | cec-client -s -d 1')
                 break
-            ## page goes down, up, back and forth
+            ## page goes down, up, back
             elif 'go down' in text_q or 'scroll down' in text_q:
                 try:
                     self.driver.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
@@ -225,7 +223,7 @@ class GoogleSearch:
                 # go_back.send_keys(Keys.TAB)
                 # go_back.send_keys(Keys.ENTER)
 
-
+            ## This works intermittenly as mouse pointer random
             elif 'pause' in text_q:
                 pyautogui.click()
                 time.sleep(1)
@@ -350,6 +348,3 @@ class GoogleSearch:
                     return True
                 else:
                     return False
-
-
-
