@@ -25,14 +25,14 @@ audio_stream = pa.open(
     frames_per_buffer=porcupine.frame_length)
 
 print("I stand ready!")
-s_driver_bool = None
+
 
 
 class wake_up:
 
     def wake_active(self):
-        google_search = GoogleSearch()
         s_driver_bool = None
+        google_search = GoogleSearch()
         while True:
             pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow=False)
             pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)

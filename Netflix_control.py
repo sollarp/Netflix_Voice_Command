@@ -64,8 +64,8 @@ class GoogleSearch:
                     else:
                         self.init_driver()
                         self.driver.get(url_link)
-                        s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                                         executor_url=self.driver.command_executor._url)
+                        self.s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
+                                                                              executor_url=self.driver.command_executor._url)
                         functionsupport.find_elements_on_website(f_loop=5)
                         return True
 
@@ -107,8 +107,8 @@ class GoogleSearch:
                                 self.init_driver()
                                 self.driver.get(url_link)
                                 ## store session in memory to reuse webdriver
-                                s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                                                 executor_url=self.driver.command_executor._url)
+                                self.s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
+                                                                                      executor_url=self.driver.command_executor._url)
                                 time.sleep(1)
                                 functionsupport.searching_in_searchBar(text_q, last_word)
                                 print("netflix searchbar")
@@ -123,8 +123,8 @@ class GoogleSearch:
                                 self.init_driver()
                                 self.driver.get('https://www.netflix.com/watch/' + return_sql_url)
                                 ## store session in memory to reuse webdriver
-                                s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                                                 executor_url=self.driver.command_executor._url)
+                                self.s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
+                                                                                      executor_url=self.driver.command_executor._url)
                                 functionsupport.user_stored_for_local_database()  ## find show name and url to add to playlist
                                 print("API database")
                                 return True
@@ -136,8 +136,8 @@ class GoogleSearch:
                         else:
                             self.init_driver()
                             self.driver.get(local_database)
-                            s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                                             executor_url=self.driver.command_executor._url)
+                            self.s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
+                                                                                  executor_url=self.driver.command_executor._url)
                             return True
             ## Search on  netflix search bar  with webbrowser
             elif 'search for' in text_q:
@@ -151,8 +151,8 @@ class GoogleSearch:
                 else:
                     self.init_driver()
                     self.driver.get(url_link)
-                    s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
-                                                                     executor_url=self.driver.command_executor._url)
+                    self.s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
+                                                                          executor_url=self.driver.command_executor._url)
                     time.sleep(1)
                     functionsupport.searching_in_searchBar(text_q, last_word='for')
                     print("netflix searchbar")
@@ -344,7 +344,10 @@ class GoogleSearch:
                 self.player.audio_set_volume(100)
                 break
             else:
-                if x:
-                    return True
+                if text_q is False or '' in text_q:
+                    self.s_driver = functionsupport.create_driver_session(session_id=self.driver.session_id,
+                                                                          executor_url=self.driver.command_executor._url)
+                if self.s_driver:
+                    return x == True
                 else:
-                    return False
+                    return x == False

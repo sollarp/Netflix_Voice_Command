@@ -130,8 +130,8 @@ def main():
             responses = client.streaming_recognize(streaming_config, requests, timeout=21)
 
         except:
-            no_result = ("no result")
-            return no_result
+            noresult = ("no result")
+            return noresult
         num_chars_printed = 0
         for response in responses:
             try:
@@ -165,8 +165,8 @@ def main():
 
                 num_chars_printed = 0
             except:
-                no_result = ('')
-                return no_result
+                noresult = ''
+                return noresult
 
 
 if __name__ == '__main__':

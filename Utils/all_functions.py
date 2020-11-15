@@ -13,6 +13,8 @@ from Support.sqlite_test import data_entry
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 
 class FunctionSupport:
+    driver = None
+
     def terminate_all_process(self):
         try:
             self.driver.close()
