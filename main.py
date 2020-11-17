@@ -37,7 +37,6 @@ class wake_up:
             pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow=False)
             pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
             result = porcupine.process(pcm)
-            # result = True
             if result:
                 # wake-word detected
                 print('you sad bumblebee')

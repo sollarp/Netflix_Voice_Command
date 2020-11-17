@@ -58,7 +58,7 @@ class GoogleSearch:
                 finally:
                     url_link = 'https://www.netflix.com/SwitchProfile?tkn=J3LTSQQC2NDQHLYPD6UGZ76T'
                     if x:
-                        self.driver.get(url_link)
+                        self.s_driver.get(url_link)
                         functionsupport.find_elements_on_website(f_loop=5)
                         return True
                     else:
@@ -97,7 +97,7 @@ class GoogleSearch:
 
                             url_link = 'https://www.netflix.com/SwitchProfile?tkn=J3LTSQQC2NDQHLYPD6UGZN76TI'
                             if x:
-                                self.driver.get(url_link)
+                                self.s_driver.get(url_link)
                                 time.sleep(1)
                                 functionsupport.searching_in_searchBar(text_q,
                                                                        last_word)  # searching in netflix website search bar
@@ -116,7 +116,7 @@ class GoogleSearch:
 
                         else:
                             if x:
-                                self.driver.get('https://www.netflix.com/watch/' + return_sql_url)
+                                self.s_driver.get('https://www.netflix.com/watch/' + return_sql_url)
                                 functionsupport.user_stored_for_local_database()  ## find show name and url to add to playlist
                                 return True
                             else:
@@ -131,7 +131,7 @@ class GoogleSearch:
 
                     else:
                         if x:
-                            self.driver.get(local_database)
+                            self.s_driver.get(local_database)
                             return True
                         else:
                             self.init_driver()
@@ -143,7 +143,7 @@ class GoogleSearch:
             elif 'search for' in text_q:
                 url_link = 'https://www.netflix.com/SwitchProfile?tkn=J3LTSQQC2NDQHLYPD6UGZN76TI'
                 if x:
-                    self.driver.get(url_link)
+                    self.s_driver.get(url_link)
                     time.sleep(1)
                     functionsupport.searching_in_searchBar(text_q, last_word='for')
                     print("netflix searchbar")
@@ -176,15 +176,14 @@ class GoogleSearch:
             ### This is a configuration to my Toshiba TV to control
             elif 'quiet' in text_q or 'volume down' in text_q:
                 os.system('sudo amixer cset numid=1 90%')
-                break
+                return True
 
             elif 'volume up' in text_q or 'louder' in text_q:
                 os.system('sudo amixer cset numid=1 100%')
-                break
+                return True
 
             elif 'wake up' in text_q:
                 os.system('echo "as 0" | cec-client -s -d 1')
-
                 break
 
             elif 'tv off' in text_q:
@@ -193,14 +192,14 @@ class GoogleSearch:
             ## page goes down, up, back
             elif 'go down' in text_q or 'scroll down' in text_q:
                 try:
-                    self.driver.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
+                    self.s_driver.find_element_by_tag_name('body').send_keys(Keys.PAGE_DOWN)
                 except:
                     pass
                 return True
 
             elif 'go up' in text_q or 'scroll up' in text_q:
                 try:
-                    scroll_up = self.driver.find_element_by_tag_name('body')
+                    scroll_up = self.s_driver.find_element_by_tag_name('body')
                     scroll_up.send_keys(Keys.PAGE_UP)
                 except:
                     pass
@@ -208,7 +207,7 @@ class GoogleSearch:
 
             elif 'go back' in text_q:
                 try:
-                    self.driver.back()
+                    self.s_driver.back()
                 except:
                     pass
                 return True
@@ -219,16 +218,13 @@ class GoogleSearch:
                 except:
                     pass
                 break
-                # go_back = self.driver.find_element_by_tag_name('body')
-                # go_back.send_keys(Keys.TAB)
-                # go_back.send_keys(Keys.ENTER)
 
             ## This works intermittenly as mouse pointer random
             elif 'pause' in text_q:
                 pyautogui.click()
                 time.sleep(1)
                 pyautogui.click()
-                break
+                return True
 
 
             ## select first show from search result on Netflix websearch.
