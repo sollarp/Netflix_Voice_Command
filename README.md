@@ -1,4 +1,11 @@
 # Netflix_Voice_Command Raspberry Pi4
+ Project can run without Pocupine or Google api speech to text service but you need to have Netflix account.
+ instruction:
+ - Main.py
+    - line 39 uncomment result = porcupine.process(pcm) and insert : result = True
+ - Netflix_control.py
+    - line 49 uncomment text_q = main().lower() and insert text_q = text_q = input ("Enter netflix: ")
+
 This version rans on Raspberry Pi4B 4g using low quality USB MIC with HDMI out to Toshiba TV.
 
 Netflix Voice Control(like Alexa or Google Assistant) using Picovoice and Google Cloud Speech_to_text API together for privacy reason with no cost 
@@ -36,6 +43,9 @@ API used:
  Unfortunatelly the first 2 data bases have some disatvantages like not finding the right content or country restricted or none exist.
  
  After requesting the show this could be stored by "add this to my playlist"
+ 
+
+ 
  
  
  Any question welcome if I can help...
