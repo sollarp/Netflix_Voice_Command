@@ -1,5 +1,5 @@
 # Netflix_Voice_Command Raspberry Pi4
- Project can run without Pocupine or Google api speech to text service but you need to have Netflix account.
+ Project can run without Porcupine or Google api speech to text service but you need to have Netflix account.
  instruction:
  - Main.py
     - line 39 uncomment result = porcupine.process(pcm) and insert : result = True
