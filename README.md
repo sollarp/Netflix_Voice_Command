@@ -8,6 +8,8 @@
 
 This version rans on Raspberry Pi4B 4g using low quality USB MIC with HDMI out to Toshiba TV.
 
+DEMO on Youtube : https://youtu.be/6z4Y8jzjZuw
+
 Netflix Voice Control(like Alexa or Google Assistant) using Picovoice and Google Cloud Speech_to_text API together for privacy reason with no cost 
 apart from Netflix subscribe. 
 Picovoice is a powerfull Wake word recognition software using little CPU and memory resources and runs offline.
